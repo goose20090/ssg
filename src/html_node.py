@@ -9,7 +9,7 @@ class HTMLNode():
         return (self.tag, self.value, self.children, self.props) == (other.tag, other.value, other.children, other.props)
 
     def to_html(self):
-        raise NotImplemented
+        raise NotImplementedError("subclasses should overwrite")
 
     def props_to_html(self):
         if self.props == None:
