@@ -1,6 +1,6 @@
-from .text_node_to_html_node import text_node_to_html_node
-from ..text_node import TextNode, TextType
 import unittest
+from src.utils.text_node_to_html_node import text_node_to_html_node
+from src.text_node import TextNode, TextType
 
 class TestTextNodeToHTMLNode(unittest.TestCase):
     def test_text(self):
@@ -24,6 +24,14 @@ class TestTextNodeToHTMLNode(unittest.TestCase):
         html_node = text_node_to_html_node(node)
         self.assertEqual(html_node.tag, "b")
         self.assertEqual(html_node.value, "This is bold")
+
+    # def test_bad_input(self):
+    #     class BadNode:
+    #         def __init__(self, text_type):
+    #             self.text_type = text_type
+    #     node = BadNode("not a valid node text_type")
+    #     self.assertRaises(ValueError, text_node_to_html_node, node)
+
 
 if __name__ == "__main__":
     unittest.main()
