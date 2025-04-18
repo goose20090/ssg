@@ -13,6 +13,25 @@ def extract_markdown_links(text):
         result.append((anchor_text, href))
 
     return result
+
+
+def extract_markdown_images(text):
+    result = []
+
+    images = re.findall(r"!\[.*?\]\(.*?\)", text)
+
+    for image in images:
+        anchor_text = extract_contents_of_square_brackets(image)
+        href = extract_contents_of_regular_brackets(image)
+
+
+        result.append((anchor_text, href))
+
+    return result
+
+
+
+
 def extract_contents_of_square_brackets(text):
         inner_text = re.search(r'\[(.*?)\]', text)
         if inner_text:
