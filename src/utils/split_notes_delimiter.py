@@ -14,7 +14,7 @@ def split_nodes_delimiter(old_nodes, delimiter, text_type):
 
         # split the node by the delimiter
 
-        split_nodes = node.text.split("`")
+        split_nodes = node.text.split(delimiter)
 
         # unless the resulting list has an even number of elements
 
