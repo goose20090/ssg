@@ -1,8 +1,9 @@
 from text_node import TextNode, TextType
+from copy_static_to_public import copy_static_to_public
 
 def main():
-    tn = TextNode("test", TextType.LINK, "https://www.boot.dev")
-    print(tn.__repr__())
+
+    copy_static_to_public()
 
 
 main()
