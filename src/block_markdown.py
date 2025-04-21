@@ -1,26 +1,9 @@
 from enum import Enum
 import re
-from src.leaf_node import LeafNode
-from src.parent_node import ParentNode
-from src.inline_markdown import text_to_text_nodes
-from src.text_node import TextNode, TextType
-from src.utils.text_node_to_html_node import text_node_to_html_node
 
-class BlockType(Enum):
-    PARAGRAPH = "paragraph"
-    HEADING = "heading"
-    CODE = "code"
-    QUOTE = "quote"
-    UNORDERED_LIST = "unordered_list"
-    ORDERED_LIST = "ordered_list"
-
-class BlockNode():
-    def __init__(self, block_type, block):
-        self.block_type = block_type
-        self.block = block
-        self.tag = self.get_tag()
-        self.text = self.get_text()
-        self.children = self.text_to_children()
+from block_node import BlockNode, BlockType
+from parent_node import ParentNode
+from utils.block_node_to_html_node import block_node_to_html_node
 
 
     def to_html_node(self):

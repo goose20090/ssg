@@ -1,4 +1,4 @@
-from src.text_node import TextType, TextNode
+from text_node import TextType, TextNode
 import re
 
 
