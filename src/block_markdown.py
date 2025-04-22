@@ -51,6 +51,8 @@ class BlockNode():
                 return self.block.removeprefix(self.get_header_prefix())
             case BlockType.CODE:
                 return self.block[3:-3]
+            case BlockType.PARAGRAPH:
+                return self.block.replace("\n", " ")
             case _: return self.block
 
     def get_header_prefix(self):

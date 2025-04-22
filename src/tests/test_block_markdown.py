@@ -98,7 +98,7 @@ class TestBlockMarkdown(unittest.TestCase):
 
             self.assertMultiLineEqual(
                 html,
-                "<div><p>This is <b>bolded</b> paragraph text in a p tag here</p><p>This is another paragraph with <i>italic</i> text and <code>code</code> here</p></div>",
+                "<div><p>This is <b>bolded</b> paragraph text in a p tag here</p><p>This is another paragraph with <i>italic</i> text and <code>code</code> here</p></div>"
             )
 
     def test_codeblock(self):
@@ -113,5 +113,5 @@ class TestBlockMarkdown(unittest.TestCase):
             html = node.to_html()
             self.assertMultiLineEqual(
                 html,
-                "<div><pre><code>\nThis is text that _should_ remain\nthe **same** even with inline stuff\n</code></pre></div>",
+                "<div><pre><code>\nThis is text that _should_ remain\nthe **same** even with inline stuff\n</code></pre></div>"
             )

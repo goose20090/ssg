@@ -9,4 +9,7 @@ class LeafNode(HTMLNode):
 
 
     def to_html(self):
-        return f"<{self.tag}{" " + self.props_to_html() if self.props else ''}>{self.value}</{self.tag}>"
+        if self.tag == None and self.value != None:
+            return self.value
+        else:
+            return f"<{self.tag}{" " + self.props_to_html() if self.props else ''}>{self.value}</{self.tag}>"
