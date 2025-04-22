@@ -1,8 +1,10 @@
 from enum import Enum
 import re
-from parent_node import ParentNode
-from inline_markdown import text_to_text_nodes
-from text_node import TextNode, TextType
+from src.leaf_node import LeafNode
+from src.parent_node import ParentNode
+from src.inline_markdown import text_to_text_nodes
+from src.text_node import TextNode, TextType
+from src.utils.text_node_to_html_node import text_node_to_html_node
 
 class BlockType(Enum):
     PARAGRAPH = "paragraph"
@@ -80,9 +82,9 @@ class BlockNode():
                     de_prefixed_lines.append(line.removeprefix(ordered_list_prefix))
                 return [ParentNode("li", text_to_text_nodes(line)) for line in lines]
             case BlockType.CODE:
-                return [TextNode(self.text, TextType.TEXT)]
+                return [LeafNode("code", self.text)]
             case _:
-                return text_to_text_nodes(self.text)
+                return [text_node_to_html_node(node) for node in text_to_text_nodes(self.text)]
 
 def markdown_to_html_nodes(markdown):
     blocks = markdown_to_blocks(markdown)

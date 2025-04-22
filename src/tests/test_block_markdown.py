@@ -1,6 +1,6 @@
 import unittest
 import textwrap
-from src.block_markdown import markdown_to_blocks, block_to_block_type, BlockType
+from src.block_markdown import markdown_to_blocks, block_to_block_type, BlockType, markdown_to_html_nodes
 
 
 class TestBlockMarkdown(unittest.TestCase):
@@ -82,3 +82,36 @@ class TestBlockMarkdown(unittest.TestCase):
         ]
         expected = [BlockType.QUOTE, BlockType.QUOTE]
         self.assertListEqual(list(map(block_to_block_type, blocks)), expected)
+        
+    def test_paragraphs(self):
+            md = textwrap.dedent("""
+        This is **bolded** paragraph
+        text in a p
+        tag here
+
+        This is another paragraph with _italic_ text and `code` here
+
+        """)
+
+            node = markdown_to_html_nodes(md)
+            html = node.to_html()
+
+            self.assertMultiLineEqual(
+                html,
+                "<div><p>This is <b>bolded</b> paragraph text in a p tag here</p><p>This is another paragraph with <i>italic</i> text and <code>code</code> here</p></div>",
+            )
+
+    def test_codeblock(self):
+            md = textwrap.dedent("""
+        ```
+        This is text that _should_ remain
+        the **same** even with inline stuff
+        ```
+        """)
+
+            node = markdown_to_html_nodes(md)
+            html = node.to_html()
+            self.assertMultiLineEqual(
+                html,
+                "<div><pre><code>\nThis is text that _should_ remain\nthe **same** even with inline stuff\n</code></pre></div>",
+            )
