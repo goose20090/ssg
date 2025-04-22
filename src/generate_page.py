@@ -1,5 +1,5 @@
 import os
-from block_markdown import extract_header_from_markdown, markdown_to_html_node
+from block_markdown import extract_header_from_markdown, markdown_to_html_nodes
 
 
 def generate_page(from_path, template_path, dest_path):
@@ -12,7 +12,7 @@ def generate_page(from_path, template_path, dest_path):
     template_str = template_file.read()
 
 
-    content = markdown_to_html_node(md_str).to_html()
+    content = markdown_to_html_nodes(md_str).to_html()
     title = extract_header_from_markdown(md_str)
 
     template_str = template_str.replace("{{ Title }}", title)
