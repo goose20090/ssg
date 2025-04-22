@@ -1,5 +1,8 @@
 from enum import Enum
 import re
+from parent_node import ParentNode
+from inline_markdown import text_to_text_nodes
+from text_node import TextNode, TextType
 
 class BlockType(Enum):
     PARAGRAPH = "paragraph"
@@ -8,6 +11,90 @@ class BlockType(Enum):
     QUOTE = "quote"
     UNORDERED_LIST = "unordered_list"
     ORDERED_LIST = "ordered_list"
+
+class BlockNode():
+    def __init__(self, block_type, block):
+        self.block_type = block_type
+        self.block = block
+        self.tag = self.get_tag()
+        self.text = self.get_text()
+        self.children = self.text_to_children()
+
+
+    def to_html_node(self):
+        return ParentNode(self.tag, self.text_to_children())
+
+    def get_tag(self):
+        match self.block_type:
+            case BlockType.HEADING:
+                header_prefix = re.match(r"^(#+)", self.block)
+                if header_prefix is None:
+                    raise Exception("something wrong with this header")
+                header_type = len(header_prefix.group(1))
+                return f"h{header_type}"
+            case BlockType.CODE:
+                return "pre"
+            case BlockType.QUOTE:
+                return "blockquote"
+            case BlockType.UNORDERED_LIST:
+                return "ul"
+            case BlockType.ORDERED_LIST:
+                return "ol"
+            case _:
+                return "p"
+
+    def get_text(self):
+        match self.block_type:
+            case BlockType.HEADING:
+                return self.block.removeprefix(self.get_header_prefix())
+            case BlockType.CODE:
+                return self.block[3:-3]
+            case _: return self.block
+
+    def get_header_prefix(self):
+        header_prefix = re.match(r"^(#+ )", self.block)
+        if header_prefix is None:
+            raise Exception("something wrong with this header")
+        return header_prefix
+
+
+
+    def text_to_children(self):
+        match self.block_type:
+            case BlockType.QUOTE:
+                lines = self.text.split("\n")
+                lines = [line.removeprefix("> ") for line in lines]
+                quote = "\n".join(lines)
+                return text_to_text_nodes(quote)
+            case BlockType.UNORDERED_LIST:
+                lines = self.text.split("\n")
+                lines = [line.removeprefix("- ") for line in lines]
+                return [ParentNode("li", text_to_text_nodes(line)) for line in lines]
+            case BlockType.ORDERED_LIST:
+                lines = self.text.split("\n")
+                de_prefixed_lines = []
+                for line in lines:
+                    ordered_list_prefix = re.match(r"^(\d+. )", line)
+                    if ordered_list_prefix is None:
+                        raise Exception("something wrong man")
+                    de_prefixed_lines.append(line.removeprefix(ordered_list_prefix))
+                return [ParentNode("li", text_to_text_nodes(line)) for line in lines]
+            case BlockType.CODE:
+                return [TextNode(self.text, TextType.TEXT)]
+            case _:
+                return text_to_text_nodes(self.text)
+
+def markdown_to_html_nodes(markdown):
+    blocks = markdown_to_blocks(markdown)
+    html_block_nodes = []
+    for block in blocks:
+        block_type = block_to_block_type(block)
+        block_node = BlockNode(block_type, block)
+        html_block_nodes.append(block_node.to_html_node())
+
+    return ParentNode("div", html_block_nodes)
+
+
 
 def markdown_to_blocks(markdown):
     blocks = [block.strip() for block in markdown.split("\n\n") if block]
