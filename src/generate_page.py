@@ -18,9 +18,13 @@ def generate_page(from_path, template_path, dest_path, basepath = "/"):
 
     template_str = template_str.replace("{{ Title }}", title)
     template_str = template_str.replace("{{ Content }}", content)
-    template_str = template_str.replace("href=\"/", f"href=\"{basepath}")
-    template_str = template_str.replace("src=\"/", f"src=\"{basepath}")
-
+    if basepath != "/":
+        # Use single quotes for the search string to avoid escaping hell
+        # Add the trailing slash in the replacement f-string
+        template_str = template_str.replace('href="/', f'href="{basepath}/')
+        template_str = template_str.replace('src="/', f'src="{basepath}/')
+    else:
+        print("Basepath is '/', no path replacement needed.") 
     with open(dest_path, "w") as dest_file:
             dest_file.write(template_str)
 
