@@ -8,6 +8,13 @@ def main():
     else:
         basepath = "/"
 
+    if not basepath.startswith("/"):
+        basepath = "/" + basepath
+        print(f"INFO: Prepended '/' to basepath. Using: {basepath}")
+    if basepath != "/" and basepath.endswith("/"):
+        basepath = basepath.rstrip("/")
+        print(f"INFO: Removed trailing '/' from basepath. Using: {basepath}")
+
     copy_static_to_docs()
     generate_pages_recursive("./content", "./template.html", "./docs", basepath)
 
