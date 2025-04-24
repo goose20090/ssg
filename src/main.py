@@ -3,7 +3,10 @@ from copy_static_to_public import copy_static_to_docs
 import sys
 
 def main():
-    basepath = sys.argv[0]
+    if len(sys.argv) > 1:
+            basepath = sys.argv[1]
+    else:
+        basepath = "/"
 
     copy_static_to_docs()
     generate_pages_recursive("./content", "./template.html", "./docs", basepath)

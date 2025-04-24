@@ -18,8 +18,8 @@ def generate_page(from_path, template_path, dest_path, basepath = "/"):
 
     template_str = template_str.replace("{{ Title }}", title)
     template_str = template_str.replace("{{ Content }}", content)
-    template_str = template_str.replace("href=\"", f"href=\"{basepath}")
-    template_str = template_str.replace("src=\"", f"src=\"{basepath}")
+    template_str = template_str.replace("href=\"/", f"href=\"{basepath}")
+    template_str = template_str.replace("src=\"/", f"src=\"{basepath}")
 
     with open(dest_path, "w") as dest_file:
             dest_file.write(template_str)
