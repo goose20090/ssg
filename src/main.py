@@ -6,7 +6,7 @@ def main():
     basepath = sys.argv[0]
 
     copy_static_to_docs()
-    generate_pages_recursive("./content", "./template.html", "./public", basepath)
+    generate_pages_recursive("./content", "./template.html", "./docs", basepath)
 
 
 main()
