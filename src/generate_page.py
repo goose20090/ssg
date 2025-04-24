@@ -61,5 +61,5 @@ def generate_pages_recursive(dir_path_content, template_path, dest_dir_path, bas
 
 
     for dir in dirs:
-        generate_pages_recursive(os.path.join(dir_path_content, dir), template_path, os.path.join(dest_dir_path, dir))
+        generate_pages_recursive(os.path.join(dir_path_content, dir), template_path, os.path.join(dest_dir_path, dir), basepath)
 
