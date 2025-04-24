@@ -1,19 +1,19 @@
 import shutil
 import os
 
-def copy_static_to_public():
+def copy_static_to_docs():
 
-    # delete public
+    # delete docs
 
-    shutil.rmtree("./public")
+    shutil.rmtree("./docs")
 
     # recreate public as empty folder
 
-    os.mkdir("./public")
+    os.mkdir("./docs")
 
-    # copy across what exists in static to public
+    # copy across what exists in static to docs
 
-    transfer_contents("./static", "./public")
+    transfer_contents("./static", "./docs")
 
 def transfer_contents(src, dest):
 
